@@ -1,6 +1,7 @@
 ﻿using BASE.Identity.API.DTO.Request;
+using BASE.Identity.API.DTO.Response;
 using BASE.Identity.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc
+using Microsoft.AspNetCore.Mvc;
 
 namespace HMRS.Identity.API.Controllers
 {
@@ -17,19 +18,41 @@ namespace HMRS.Identity.API.Controllers
             _loginService = loginService;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            _logger.LogInformation(">> Test Connection <<");
+
+            var result = await _loginService.DBConnectionTest();
+
+            if (result)
+            {
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+
         [HttpPost]
-        public ActionResult PostLogin(LoginRequestDTO request)
+        public async Task<ActionResult<LoginResponseDTO>> PostLogin(LoginRequestDTO request)
         {
             _logger.LogInformation(">> Post user by username and password <<");
 
-            var result = _loginService.ValidateLogin();
+            var user = await _loginService.ValidateLogin(request.UserName, request.Password);
 
-            if (result == null)
+            if (user != null)
             {
-                return NotFound();
-            }
+                var result = new LoginResponseDTO()
+                {
+                    UserName = user.UserName,
+                    IsActive = Convert.ToBoolean(user.IsActive),
+                    IsLocked = Convert.ToBoolean(user.IsLocked),
+                };
 
-            return Ok(result);
+                return Ok(result);
+            }                 
+
+            return NotFound();
         }
 
     }

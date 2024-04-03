@@ -1,32 +1,35 @@
-﻿using BASE.Identity.Repository.Repositories;
+﻿using BASE.Identity.Repository.Model;
+using BASE.Identity.Repository.Repositories;
 using BASE.Identity.Services.Interfaces;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace BASE.Identity.Services.Services
 {
     public class LoginService : ILoginService
     {
-        public string ValidateLogin()
-        {  
+        private DataBaseContext context = new DataBaseContext();
 
-            var context = new DataBaseContext();
-            string result = string.Empty;
+        public async Task< User?> ValidateLogin(string userName, string password)
+        {          
+            var user  = await context.Users.Where(x => x.UserName == userName && x.Password == password).FirstOrDefaultAsync();
 
-            if (context.Database.CanConnect())
+            if (user != null)
             {
-                // all good
-                result = "connected";
+                return user;
             }
-            else
-            {
-                result = "not connect";
-            }
-            //var studentsWithSameName = context.Users.ToList();
 
-            var getUsers = context.Users.FirstOrDefault();
-
-            
-            return result;
+            return null;
         
+        }
+
+        public async Task<bool> DBConnectionTest()
+        {          
+            if (await context.Database.CanConnectAsync())
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

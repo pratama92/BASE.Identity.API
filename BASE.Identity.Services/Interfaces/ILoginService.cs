@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BASE.Identity.Repository.Model;
 
 namespace BASE.Identity.Services.Interfaces
 {
     public interface ILoginService
     {
-        public string ValidateLogin();
+        public Task<User?> ValidateLogin(string userName, string password);
+        public Task<bool> DBConnectionTest();
     }
 }
