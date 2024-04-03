@@ -1,0 +1,6 @@
+@HMRS.Identiry.API_HostAddress = http://localhost:5198
+
+GET {{HMRS.Identiry.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
