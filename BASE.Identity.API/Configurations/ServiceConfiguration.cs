@@ -1,5 +1,6 @@
-﻿using HMRS.Identity.Services.Interfaces;
-using HMRS.Identity.Services.Services;
+﻿using BASE.Identity.Repository.Repositories;
+using BASE.Identity.Services.Interfaces;
+using BASE.Identity.Services.Services;
 
 namespace HMRS.Identity.API.Configurations
 {
@@ -11,6 +12,9 @@ namespace HMRS.Identity.API.Configurations
             //services.AddScoped<IEmployeeService, EmployeeService>();
 
             services.AddScoped<ILoginService, LoginService>();
+
+            services.AddDbContext<DataBaseContext>();
+
         }
 
     }

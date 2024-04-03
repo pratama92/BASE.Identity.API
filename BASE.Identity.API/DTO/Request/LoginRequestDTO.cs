@@ -1,8 +1,8 @@
-﻿namespace HMRS.Identity.API.DTO.Request
+﻿namespace BASE.Identity.API.DTO.Request
 {
     public class LoginRequestDTO
     {
         public string UserName { get; set; } = null!;
-        public string? Password { get; set; }
+        public string Password { get; set; } = null!;
     }
 }

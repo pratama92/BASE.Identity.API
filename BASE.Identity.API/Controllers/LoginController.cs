@@ -1,8 +1,6 @@
-﻿using HMRS.Identity.Services.Interfaces;
-using HMRS.Identity.Services.Services;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System.Runtime.CompilerServices;
+﻿using BASE.Identity.API.DTO.Request;
+using BASE.Identity.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc
 
 namespace HMRS.Identity.API.Controllers
 {
@@ -19,8 +17,8 @@ namespace HMRS.Identity.API.Controllers
             _loginService = loginService;
         }
 
-        [HttpGet]
-        public ActionResult GetLogin()
+        [HttpPost]
+        public ActionResult PostLogin(LoginRequestDTO request)
         {
             _logger.LogInformation(">> Post user by username and password <<");
 

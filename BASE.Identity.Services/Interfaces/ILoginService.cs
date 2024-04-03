@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HMRS.Identity.Services.Interfaces
+namespace BASE.Identity.Services.Interfaces
 {
     public interface ILoginService
     {

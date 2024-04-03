@@ -1,4 +1,4 @@
-﻿namespace HMRS.Identity.API.DTO.Response
+﻿namespace BASE.Identity.API.DTO.Response
 {
     public class LoginResponseDTO
     {

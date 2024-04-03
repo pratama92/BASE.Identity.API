@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BASE.Identity.Repository\BASE.Identity.Repository.csproj" />
+  </ItemGroup>
+
 </Project>

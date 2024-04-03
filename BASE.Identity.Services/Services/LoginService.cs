@@ -1,17 +1,30 @@
-﻿using HMRS.Identity.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BASE.Identity.Repository.Repositories;
+using BASE.Identity.Services.Interfaces;
 
-namespace HMRS.Identity.Services.Services
+namespace BASE.Identity.Services.Services
 {
     public class LoginService : ILoginService
     {
-        public string ValidateLogin() {
+        public string ValidateLogin()
+        {  
 
-            var result = "it is service";
+            var context = new DataBaseContext();
+            string result = string.Empty;
+
+            if (context.Database.CanConnect())
+            {
+                // all good
+                result = "connected";
+            }
+            else
+            {
+                result = "not connect";
+            }
+            //var studentsWithSameName = context.Users.ToList();
+
+            var getUsers = context.Users.FirstOrDefault();
+
+            
             return result;
         
         }
