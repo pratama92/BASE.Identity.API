@@ -17,10 +17,8 @@ namespace BASE.Identity.Repository.Repositories
         {
             modelBuilder.Entity<User>(entity =>
             {
-                entity
-                    .HasNoKey()
-                    .ToTable("User");
-
+                entity.ToTable("User");
+                entity.Property(e => e.UserId).IsRequired();
                 entity.Property(e => e.Password).HasMaxLength(50);
                 entity.Property(e => e.UserEmail).HasMaxLength(50);
                 entity.Property(e => e.UserId).HasMaxLength(50);

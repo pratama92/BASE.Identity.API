@@ -38,7 +38,7 @@ namespace HMRS.Identity.API.Controllers
         {
             _logger.LogInformation(">> Post user by username and password <<");
 
-            var user = await _loginService.ValidateLogin(request.UserName, request.Password);
+            var user = await _loginService.AuthenticateLogin(request.UserName, request.Password);
 
             if (user != null)
             {

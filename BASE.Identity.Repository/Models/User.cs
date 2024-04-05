@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace BASE.Identity.Repository.Model
 {
     public partial class User
     {
+        [Key]
         public String UserId { get; set; } = null!;
 
         public string UserName { get; set; } = null!;

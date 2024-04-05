@@ -10,7 +10,7 @@ namespace BASE.Identity.Services.Services
     {
         private DataBaseContext context = new DataBaseContext();
 
-        public async Task< User?> ValidateLogin(string userName, string password)
+        public async Task< User?> AuthenticateLogin(string userName, string password)
         {          
             var user  = await context.Users.Where(x => x.UserName == userName && x.Password == password).FirstOrDefaultAsync();
 
