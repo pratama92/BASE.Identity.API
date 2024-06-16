@@ -1,4 +1,4 @@
-﻿using BASE.Identity.Repository.Model;
+﻿using BASE.Identity.Repository.Models;
 using BASE.Identity.Repository.Repositories;
 using BASE.Identity.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;

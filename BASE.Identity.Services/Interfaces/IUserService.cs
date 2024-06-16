@@ -1,4 +1,4 @@
-﻿using BASE.Identity.Repository.Model;
+﻿using BASE.Identity.Repository.Models;
 
 namespace BASE.Identity.Services.Interfaces
 {
@@ -7,5 +7,8 @@ namespace BASE.Identity.Services.Interfaces
         public Task<List<User>?> GetUsers();
         public Task<User?> GetUserByUserName(string userName);
         public Task CreateUser(User request);
+        public Task UpdateUser(User request);
+        public Task HardRemoveUser(User request);
+
     }
 }

@@ -1,4 +1,4 @@
-﻿using BASE.Identity.Repository.Model;
+﻿using BASE.Identity.Repository.Models;
 
 namespace BASE.Identity.Services.Interfaces
 {

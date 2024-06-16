@@ -7,16 +7,10 @@ namespace HMRS.Identity.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LoginController : ControllerBase
+    public class LoginController(ILogger<LoginController> logger, ILoginService loginService) : ControllerBase
     {
-        private readonly ILogger<LoginController> _logger;
-        private readonly ILoginService _loginService;
-
-        public LoginController(ILogger<LoginController> logger, ILoginService loginService)
-        {
-            _logger = logger;
-            _loginService = loginService;
-        }
+        private readonly ILogger<LoginController> _logger = logger;
+        private readonly ILoginService _loginService = loginService;
 
         [HttpGet]
         public async Task<IActionResult> Get()
@@ -45,8 +39,8 @@ namespace HMRS.Identity.API.Controllers
                 var result = new LoginResponseDTO()
                 {
                     UserName = user.UserName,
-                    IsActive = Convert.ToBoolean(user.IsActive),
-                    IsLocked = Convert.ToBoolean(user.IsLocked),
+                    //IsActive = Convert.ToBoolean(user.IsActive),
+                    //IsLocked = Convert.ToBoolean(user.IsLocked),
                 };
 
                 return Ok(result);

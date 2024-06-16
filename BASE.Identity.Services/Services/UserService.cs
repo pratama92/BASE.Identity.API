@@ -1,25 +1,20 @@
-﻿using BASE.Identity.Repository.Model;
+﻿using BASE.Identity.Repository.Models;
 using BASE.Identity.Repository.Repositories;
 using BASE.Identity.Services.Interfaces;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace BASE.Identity.Services.Services
 {
     public class UserService : IUserService
     {
-        private DataBaseContext context = new DataBaseContext();
+        private readonly DataBaseContext context = new();
 
         public async Task<User?> GetUserByUserName(string userName)
         {
             var user = await context.Users.FirstOrDefaultAsync(x => x.UserName == userName);
 
-            if ( user != null)
+            if (user != null)
             {
                 return user;
             }
@@ -43,13 +38,46 @@ namespace BASE.Identity.Services.Services
         {
             if (request != null)
             {
-                request.UserId = Guid.NewGuid().ToString();
-                request.IsLocked = 0;
-                request.IsActive = 1;
+                request.UserID = Guid.NewGuid();
+                request.RoleID = Guid.Parse("357CBB2B-6D02-4F09-AE66-95629DACEAE9");
+                request.Password = BCrypt.Net.BCrypt.HashPassword(request.Password);
+                request.CreatedDate = DateTime.UtcNow;
+                request.ModifiedDate = DateTime.UtcNow;
 
                 context.Users.Add(request);
                 await context.SaveChangesAsync();
-            }             
+            }
+        }
+
+        public async Task UpdateUser(User request)
+        {
+            if (request != null)
+            {
+                var user = await GetUserByUserName(request.UserName);
+
+                if (user != null)
+                {
+                    user.Password = BCrypt.Net.BCrypt.HashPassword(request.Password);
+                    user.ModifiedDate = DateTime.UtcNow;
+                    await context.SaveChangesAsync();
+                }
+
+            }
+        }
+
+        public async Task HardRemoveUser(User request)
+        {
+            if (request != null)
+            {
+                var user = await GetUserByUserName(request.UserName);
+
+                if (user != null)
+                {
+                    context.Users.Remove(user);
+                    await context.SaveChangesAsync();
+                }
+
+            }
         }
 
     }

@@ -1,21 +1,34 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BASE.Identity.Repository.Model
+namespace BASE.Identity.Repository.Models
 {
-    public partial class User
+    [Table("TblUser")]
+    public class User
     {
         [Key]
-        public String UserId { get; set; } = null!;
+        public Guid UserID { get; set; }
 
+        [Required]
         public string UserName { get; set; } = null!;
 
+        [Required]
         public string Password { get; set; } = null!;
 
-        public string UserEmail { get; set; } = null!;
+        [Required]
+        public string Email { get; set; } = null!;
 
-        public byte  IsActive { get; set; }
+        public Guid RoleID { get; set; } 
 
-        public byte IsLocked { get; set; }
+        //public byte  IsActive { get; set; }
+
+        //public byte IsLocked { get; set; }
+
+        [Required]
+        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
+
+        [Required]
+        public DateTime ModifiedDate { get; set; } = DateTime.UtcNow;
 
     }
 }
