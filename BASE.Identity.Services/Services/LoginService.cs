@@ -8,23 +8,24 @@ namespace BASE.Identity.Services.Services
 {
     public class LoginService : ILoginService
     {
-        private DataBaseContext context = new DataBaseContext();
 
-        public async Task< User?> AuthenticateLogin(string userName, string password)
-        {          
-            var user  = await context.Users.Where(x => x.UserName == userName && x.Password == password).FirstOrDefaultAsync();
-
+        public async Task<User?> AuthenticateLogin(string userName, string password)
+        {
+            var userService = new UserService();
+            var user = await userService.GetUserByUserName(userName);
             if (user != null)
             {
-                return user;
+                if (BCrypt.Net.BCrypt.Verify(password, user.Password))
+                {
+                    return user;
+                }
             }
-
             return null;
-        
         }
 
         public async Task<bool> DBConnectionTest()
-        {          
+        {
+            DataBaseContext context = new DataBaseContext();
             if (await context.Database.CanConnectAsync())
             {
                 return true;

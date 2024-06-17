@@ -12,41 +12,34 @@ namespace HMRS.Identity.API.Controllers
         private readonly ILogger<LoginController> _logger = logger;
         private readonly ILoginService _loginService = loginService;
 
-        [HttpGet]
-        public async Task<IActionResult> Get()
-        {
-            _logger.LogInformation(">> Test Connection <<");
+        //[HttpGet]
+        //public async Task<IActionResult> Get()
+        //{
+        //    _logger.LogInformation(">> Test Connection <<");
 
-            var result = await _loginService.DBConnectionTest();
+        //    var result = await _loginService.DBConnectionTest();
 
-            if (result)
-            {
-                return Ok();
-            }
+        //    if (result)
+        //    {
+        //        return Ok("Connected");
+        //    }
 
-            return BadRequest();
-        }
+        //    return BadRequest("No Connection");
+        //}
 
         [HttpPost]
         public async Task<ActionResult<LoginResponseDTO>> PostLogin(LoginRequestDTO request)
         {
-            _logger.LogInformation(">> Post user by username and password <<");
+            _logger.LogInformation(">> Login User <<");
 
             var user = await _loginService.AuthenticateLogin(request.UserName, request.Password);
 
             if (user != null)
-            {
-                var result = new LoginResponseDTO()
-                {
-                    UserName = user.UserName,
-                    //IsActive = Convert.ToBoolean(user.IsActive),
-                    //IsLocked = Convert.ToBoolean(user.IsLocked),
-                };
-
-                return Ok(result);
+            { 
+                return Ok("Login Success!");
             }                 
 
-            return NotFound();
+            return BadRequest("Incorrect UserName or Password!");
         }
 
     }

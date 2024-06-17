@@ -50,7 +50,7 @@ namespace BASE.Identity.API.Controllers
                 return Ok(result);
             }
 
-            return BadRequest("User Is Not Exist!");
+            return NotFound("User Is Not Exist!");
 
         }
 
@@ -92,7 +92,7 @@ namespace BASE.Identity.API.Controllers
 
             if (!await user.IsUserExist())
             {
-                return BadRequest("User Is Not Exist!");
+                return NotFound("User Is Not Exist!");
             }
 
             if (await user.CheckCurrentPassword())
@@ -122,7 +122,7 @@ namespace BASE.Identity.API.Controllers
 
             if (!await user.IsUserExist())
             {
-                return BadRequest("User Is Not Exist!");
+                return NotFound("User Is Not Exist!");
             }
 
             if (!await user.CheckCurrentPassword())
