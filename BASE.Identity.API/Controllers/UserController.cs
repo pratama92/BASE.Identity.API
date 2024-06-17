@@ -8,15 +8,17 @@ namespace BASE.Identity.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController(IUserService _iuserService) : Controller
+    public class UserController(IUserService _iuserService, ILogger<UserController> logger) : Controller
     {
-
+        private readonly ILogger<UserController> _logger = logger;
         private readonly IUserService iuserService = _iuserService;
 
         [HttpGet]
         [Route("users")]
         public async Task<IActionResult> GetUsers()
         {
+            _logger.LogInformation(">> Get All User <<");
+
             var users = await iuserService.GetUsers();
 
             var result = new List<UserResponseDTO>();
@@ -36,6 +38,8 @@ namespace BASE.Identity.API.Controllers
 
         public async Task<IActionResult> GetUserByUserName(string userName)
         {
+            _logger.LogInformation(">> Get User: <<" + userName);
+
             var user = await iuserService.GetUserByUserName(userName);
 
             if (user != null)
@@ -57,6 +61,8 @@ namespace BASE.Identity.API.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateUser(UserRequestDTO request)
         {
+            _logger.LogInformation(">> Create User: <<" + request.UserName);
+
             var user = new User
             {
                 UserName = request.UserName,
@@ -84,6 +90,8 @@ namespace BASE.Identity.API.Controllers
         [Route("password")]
         public async Task<IActionResult> ChangePassword(ChangePasswordRequestDTO request)
         {
+            _logger.LogInformation(">> Change Password <<" + request.UserName);
+
             var user = new User
             {
                 UserName = request.UserName,
@@ -114,6 +122,8 @@ namespace BASE.Identity.API.Controllers
         [HttpDelete]
         public async Task<IActionResult> DeleteUser(DeleteUserRequestDTO request)
         {
+            _logger.LogInformation(">> Delete User: <<" + request.UserName);
+
             var user = new User
             {
                 UserName = request.UserName,

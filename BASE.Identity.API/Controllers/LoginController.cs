@@ -30,14 +30,14 @@ namespace HMRS.Identity.API.Controllers
         [HttpPost]
         public async Task<ActionResult<LoginResponseDTO>> PostLogin(LoginRequestDTO request)
         {
-            _logger.LogInformation(">> Login User <<");
+            _logger.LogInformation(">> Login User <<" + request.UserName);
 
             var user = await _loginService.AuthenticateLogin(request.UserName, request.Password);
 
             if (user != null)
-            { 
+            {
                 return Ok("Login Success!");
-            }                 
+            }
 
             return BadRequest("Incorrect UserName or Password!");
         }
