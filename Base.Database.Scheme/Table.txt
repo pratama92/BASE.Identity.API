@@ -1,0 +1,27 @@
+------------
+SQL SERVER
+------------
+
+Initial table scheme!
+
+CREATE TABLE TblRole (
+    RoleID UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID(),
+    RoleName NVARCHAR(100) NOT NULL,
+    RoleDescription NVARCHAR(MAX) NULL,
+	CreatedDate DATETIME NOT NULL,
+    ModifiedDate DATETIME NOT NULL,
+    CONSTRAINT PK_Role PRIMARY KEY (RoleId)
+);
+
+
+
+CREATE TABLE TblUser (
+    UserID UNIQUEIDENTIFIER NOT NULL DEFAULT NEWID(),
+    Username NVARCHAR(100) NOT NULL,
+    Email NVARCHAR(100) NOT NULL,
+    Password NVARCHAR(256) NOT NULL,
+    RoleID UNIQUEIDENTIFIER NOT NULL,
+    CreatedDate DATETIME NOT NULL,
+    ModifiedDate DATETIME NOT NULL,
+    CONSTRAINT PK_User PRIMARY KEY (UserId),    
+);
