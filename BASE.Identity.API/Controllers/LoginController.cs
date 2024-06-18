@@ -1,6 +1,8 @@
 ﻿using BASE.Identity.API.DTO.Request;
 using BASE.Identity.API.DTO.Response;
+using BASE.Identity.Repository.Models;
 using BASE.Identity.Services.Interfaces;
+using BASE.Identity.Services.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HMRS.Identity.API.Controllers
@@ -32,11 +34,16 @@ namespace HMRS.Identity.API.Controllers
         {
             _logger.LogInformation(">> Login User <<" + request.UserName);
 
-            var user = await _loginService.AuthenticateLogin(request.UserName, request.Password);
-
-            if (user != null)
+            var user = new User
             {
-                return Ok("Login Success!");
+                UserName = request.UserName,
+                Password = request.Password
+            };
+
+            if (await user.CheckCurrentPassword())
+            {
+                var token = _loginService.GenerateAccessToken(user);
+                return Ok(new LoginResponseDTO { UserName = user.UserName, Token = token });
             }
 
             return BadRequest("Incorrect UserName or Password!");

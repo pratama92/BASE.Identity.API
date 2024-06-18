@@ -3,8 +3,7 @@
     public class LoginResponseDTO
     {
         public string UserName { get; set; } = null!;
-        public string Status { get; set; } = null!;
-        public bool IsActive { get; set; }
-        public bool IsLocked { get; set; }
+        public string Token { get; set; } = null!;
+        
     }
 }

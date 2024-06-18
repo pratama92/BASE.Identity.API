@@ -2,12 +2,14 @@
 using BASE.Identity.Repository.Models;
 using BASE.Identity.Services.Interfaces;
 using BASE.Identity.Services.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BASE.Identity.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserController(IUserService _iuserService, ILogger<UserController> logger) : Controller
     {
         private readonly ILogger<UserController> _logger = logger;
