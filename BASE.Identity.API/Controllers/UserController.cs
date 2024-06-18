@@ -24,9 +24,9 @@ namespace BASE.Identity.API.Controllers
             var result = new List<UserResponseDTO>();
             if (users != null)
             {
-                foreach(var item in users)
+                foreach (var item in users)
                 {
-                    result.Add(new UserResponseDTO() { UserID = item.UserID, UserName = item.UserName, UserEmail = item.Email});   
+                    result.Add(new UserResponseDTO() { UserID = item.UserID, UserName = item.UserName, UserEmail = item.Email });
                 }
             }
 
@@ -92,28 +92,32 @@ namespace BASE.Identity.API.Controllers
         {
             _logger.LogInformation(">> Change Password <<" + request.UserName);
 
-            var user = new User
-            {
-                UserName = request.UserName,
-                Password = request.NewPassword
-            };
-
+            var user = new User();
+            user.UserName = request.UserName;
+          
             if (!await user.IsUserExist())
             {
                 return NotFound("User Is Not Exist!");
             }
 
-            if (await user.CheckCurrentPassword())
+            if (request.NewPassword == request.CurrentPassword)
             {
-                return BadRequest("New password must not be the same with current password!");
+                return BadRequest("The new password must not be the same with current password!");
+            }
+
+            user.Password = request.CurrentPassword;
+            if (!await user.CheckCurrentPassword())
+            {
+                return BadRequest("The current password is not correct");
             }
 
             string message = string.Empty;
+            user.Password = request.NewPassword;
             if (user.IsPasswordNotOkay(ref message))
             {
                 return BadRequest(message);
             }
-
+           
             await iuserService.UpdateUser(user);
 
             return Ok();
@@ -123,6 +127,7 @@ namespace BASE.Identity.API.Controllers
         public async Task<IActionResult> DeleteUser(DeleteUserRequestDTO request)
         {
             _logger.LogInformation(">> Delete User: <<" + request.UserName);
+
 
             var user = new User
             {

@@ -1,15 +1,16 @@
 ﻿using BASE.Identity.Repository.Models;
-using Microsoft.AspNetCore.Identity;
+using BASE.Identity.Repository.Repositories;
 using System.Text.RegularExpressions;
-
 
 namespace BASE.Identity.Services.Services
 {
     public static class ValidationService
     {
+        private static UserService userService =  new UserService(new DataBaseContext());
+
         public static async Task<bool> IsUserExist(this User user)
         {
-            UserService userService = new UserService();
+            
             var username = await userService.GetUserByUserName(user.UserName);
 
             if (username != null)
@@ -22,7 +23,7 @@ namespace BASE.Identity.Services.Services
 
         public static async Task<bool> CheckCurrentPassword(this User user)
         {
-            UserService userService = new UserService();
+            //UserService userService = new UserService();
             var username = await userService.GetUserByUserName(user.UserName);
 
             if (username != null)

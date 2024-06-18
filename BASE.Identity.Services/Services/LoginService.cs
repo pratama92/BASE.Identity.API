@@ -1,17 +1,16 @@
 ﻿using BASE.Identity.Repository.Models;
 using BASE.Identity.Repository.Repositories;
 using BASE.Identity.Services.Interfaces;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace BASE.Identity.Services.Services
 {
     public class LoginService : ILoginService
     {
+        private static UserService userService = new UserService(new DataBaseContext());
 
         public async Task<User?> AuthenticateLogin(string userName, string password)
         {
-            var userService = new UserService();
+
             var user = await userService.GetUserByUserName(userName);
             if (user != null)
             {

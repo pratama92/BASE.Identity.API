@@ -3,12 +3,11 @@ using BASE.Identity.Repository.Repositories;
 using BASE.Identity.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace BASE.Identity.Services.Services
 {
-    public class UserService : IUserService
+    public class UserService (DataBaseContext dataBaseContext) : IUserService
     {
-        private readonly DataBaseContext context = new();
+        private readonly DataBaseContext context = dataBaseContext;
 
         public async Task<User?> GetUserByUserName(string userName)
         {
