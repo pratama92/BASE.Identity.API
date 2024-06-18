@@ -1,5 +1,6 @@
 ﻿using BASE.Identity.Repository.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 
 namespace BASE.Identity.Repository.Repositories
@@ -10,7 +11,10 @@ namespace BASE.Identity.Repository.Repositories
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-HOME-IN;Initial Catalog=BASE.Local;Persist Security Info=True;User ID=admin;Password=admin;Trust Server Certificate=True");
+            var appSetting = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+            var connString = appSetting.GetValue<string>("ConnectionStrings:string");
+
+            optionsBuilder.UseSqlServer(connString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
