@@ -8,6 +8,7 @@ namespace BASE.Identity.Repository.Repositories
     public partial class DataBaseContext : DbContext
     {
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

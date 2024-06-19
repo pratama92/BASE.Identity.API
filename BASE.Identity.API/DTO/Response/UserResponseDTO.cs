@@ -8,5 +8,6 @@
 
         public string UserEmail { get; set; } = null!;
 
+        public string UserRole { get; set; } = null!;
     }
 }

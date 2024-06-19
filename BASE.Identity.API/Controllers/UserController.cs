@@ -10,10 +10,11 @@ namespace BASE.Identity.API.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class UserController(IUserService _iuserService, ILogger<UserController> logger) : Controller
+    public class UserController(IUserService _iuserService, IRoleService _roleService, ILogger<UserController> logger) : Controller
     {
         private readonly ILogger<UserController> _logger = logger;
         private readonly IUserService iuserService = _iuserService;
+        private readonly IRoleService roleService = _roleService;
 
         [HttpGet]
         [Route("users")]
@@ -28,7 +29,8 @@ namespace BASE.Identity.API.Controllers
             {
                 foreach (var item in users)
                 {
-                    result.Add(new UserResponseDTO() { UserID = item.UserID, UserName = item.UserName, UserEmail = item.Email });
+                    var role = await roleService.GetRoleByRoleID(item.RoleID);
+                    result.Add(new UserResponseDTO() { UserID = item.UserID, UserName = item.UserName, UserEmail = item.Email, UserRole = role!= null ? role.RoleName : string.Empty  });
                 }
             }
 
@@ -46,11 +48,13 @@ namespace BASE.Identity.API.Controllers
 
             if (user != null)
             {
+                var role = await roleService.GetRoleByRoleID(user.RoleID);
                 var result = new UserResponseDTO()
                 {
                     UserName = user.UserName,
                     UserEmail = user.Email,
                     UserID = user.UserID,
+                    UserRole = role != null ? role.RoleName : string.Empty
                 };
 
                 return Ok(result);

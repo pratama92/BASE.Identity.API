@@ -13,6 +13,7 @@ namespace HMRS.Identity.API.Configurations
 
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRoleService, RoleService>();
 
             services.AddDbContext<DataBaseContext>();
 

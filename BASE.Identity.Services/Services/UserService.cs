@@ -8,6 +8,7 @@ namespace BASE.Identity.Services.Services
     public class UserService (DataBaseContext dataBaseContext) : IUserService
     {
         private readonly DataBaseContext context = dataBaseContext;
+        private readonly RoleService roleService = new RoleService(dataBaseContext);       
 
         public async Task<User?> GetUserByUserName(string userName)
         {
@@ -35,10 +36,12 @@ namespace BASE.Identity.Services.Services
 
         public async Task CreateUser(User request)
         {
+            var role = await roleService.GetRoleByRoleName("User");
+
             if (request != null)
             {
                 request.UserID = Guid.NewGuid();
-                request.RoleID = Guid.Parse("357CBB2B-6D02-4F09-AE66-95629DACEAE9");
+                request.RoleID = role != null ? role.RoleID: Guid.NewGuid();
                 request.Password = BCrypt.Net.BCrypt.HashPassword(request.Password);
                 request.CreatedDate = DateTime.UtcNow;
                 request.ModifiedDate = DateTime.UtcNow;
