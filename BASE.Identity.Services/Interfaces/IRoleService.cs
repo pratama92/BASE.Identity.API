@@ -9,6 +9,8 @@ namespace BASE.Identity.Services.Interfaces
 {
     public interface IRoleService
     {
+        public Task<List<Role>?> GetRoles();
+        public Task CreateRole(Role role);
         public Task<Role?> GetRoleByRoleName(string roleName);
         public Task<Role?> GetRoleByRoleID(Guid roleID);
     }
