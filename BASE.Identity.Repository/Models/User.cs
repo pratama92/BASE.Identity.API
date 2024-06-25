@@ -18,11 +18,14 @@ namespace BASE.Identity.Repository.Models
         [Required]
         public string Email { get; set; } = null!;
 
-        public Guid RoleID { get; set; } 
+        public Guid RoleID { get; set; }
 
-        //public byte  IsActive { get; set; }
+        public byte IsActive { get; set; }
 
         //public byte IsLocked { get; set; }
+
+        public string? RefreshToken { get; set; }
+        public DateTime? RefreshTokenExpireDate { get; set; }
 
         [Required]
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;

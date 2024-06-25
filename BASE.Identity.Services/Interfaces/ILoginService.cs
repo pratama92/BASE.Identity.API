@@ -4,8 +4,7 @@ namespace BASE.Identity.Services.Interfaces
 {
     public interface ILoginService
     {
-        public Task<User?> AuthenticateLogin(string userName, string password);
         public Task<bool> DBConnectionTest();
-        public string GenerateAccessToken(User user);
+        public Task<Token?> GenerateToken(User user);
     }
 }

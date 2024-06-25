@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace BASE.Identity.Services.Services
@@ -13,18 +14,18 @@ namespace BASE.Identity.Services.Services
     {
         private static UserService userService = new UserService(new DataBaseContext());
 
-        public async Task<User?> AuthenticateLogin(string userName, string password)
+        public async Task<Token?> GenerateToken(User user)
         {
-
-            var user = await userService.GetUserByUserName(userName);
-            if (user != null)
+            var token = new Token()
             {
-                if (BCrypt.Net.BCrypt.Verify(password, user.Password))
-                {
-                    return user;
-                }
-            }
-            return null;
+                Accesstoken = GenerateAccessToken(user),
+                RefreshToken = GenerateRefreshToken(),
+                RefreshTokenExpireDate = DateTime.Now.AddHours(1)
+            };
+
+            await userService.UpdateRefreshTokenAsync(user.UserName, token.RefreshToken, token.RefreshTokenExpireDate);
+
+            return token;
         }
 
         public string GenerateAccessToken(User user)
@@ -58,12 +59,22 @@ namespace BASE.Identity.Services.Services
 
                             return new JwtSecurityTokenHandler().WriteToken(token);
                         }
-                       
+
                     }
                 }
             }
 
             return string.Empty;
+        }
+
+        public string GenerateRefreshToken()
+        {
+            var randomNumber = new byte[32];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(randomNumber);
+                return Convert.ToBase64String(randomNumber);
+            }
         }
 
         public async Task<bool> DBConnectionTest()

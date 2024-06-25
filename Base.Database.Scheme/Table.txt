@@ -13,6 +13,7 @@ CREATE TABLE TblRole (
     CONSTRAINT PK_Role PRIMARY KEY (RoleId)
 );
 
+--insert into TblRole(RoleID, RoleName, RoleDescription, CreatedDate, ModifiedDate) values ('357CBB2B-6D02-4F09-AE66-95629DACEAE9', 'User', 'Initial User', GETDATE(), GETDATE())
 
 
 CREATE TABLE TblUser (
@@ -21,7 +22,13 @@ CREATE TABLE TblUser (
     Email NVARCHAR(100) NOT NULL,
     Password NVARCHAR(256) NOT NULL,
     RoleID UNIQUEIDENTIFIER NOT NULL,
+	IsActive TINYINT  NOT NULL,
+	RefreshToken NVARCHAR(100) NULL,
+    RefreshTokenExpireDate DATETIME NULL,
     CreatedDate DATETIME NOT NULL,
     ModifiedDate DATETIME NOT NULL,
     CONSTRAINT PK_User PRIMARY KEY (UserId),    
 );
+
+
+INSERT INTO dbo.TblUser (UserID,Username,email,password,roleid,isactive,refreshtoken,createddate,modifieddate) values ('C02EE56C-4F13-469F-BB1E-5DB382449ADA',	'username1','user@example.com', '$2a$11$gIhsEHwrhKqGbhy59u4VuuNLBTfSjixA/8pYZzcduOMsiVPwSaaL2', '357CBB2B-6D02-4F09-AE66-95629DACEAE9',1,null, getdate(), getdate())  			

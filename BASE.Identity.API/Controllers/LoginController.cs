@@ -14,21 +14,6 @@ namespace HMRS.Identity.API.Controllers
         private readonly ILogger<LoginController> _logger = logger;
         private readonly ILoginService _loginService = loginService;
 
-        //[HttpGet]
-        //public async Task<IActionResult> Get()
-        //{
-        //    _logger.LogInformation(">> Test Connection <<");
-
-        //    var result = await _loginService.DBConnectionTest();
-
-        //    if (result)
-        //    {
-        //        return Ok("Connected");
-        //    }
-
-        //    return BadRequest("No Connection");
-        //}
-
         [HttpPost]
         public async Task<ActionResult<LoginResponseDTO>> PostLogin(LoginRequestDTO request)
         {
@@ -42,8 +27,22 @@ namespace HMRS.Identity.API.Controllers
 
             if (await user.CheckCurrentPassword())
             {
-                var token = _loginService.GenerateAccessToken(user);
-                return Ok(new LoginResponseDTO { UserName = user.UserName, Token = token });
+                var token = await _loginService.GenerateToken(user);
+
+                if (token != null)
+                {
+                    var tokenresponse = new LoginResponseDTO()
+                    {
+                        Token = token.Accesstoken,
+                        RefreshToken = token.RefreshToken
+                    };
+                    return Ok(token);
+                }
+                else
+                {
+                    return BadRequest("Invalid Attempt!");
+                }
+
             }
 
             return BadRequest("Incorrect UserName or Password!");

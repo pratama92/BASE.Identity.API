@@ -29,6 +29,9 @@ namespace BASE.Identity.Repository.Repositories
                 entity.Property(e => e.Email).HasMaxLength(50);
                 entity.Property(e => e.UserID).HasMaxLength(50);
                 entity.Property(e => e.UserName).HasMaxLength(50);
+                entity.Property(e => e.IsActive);
+                entity.Property(e => e.RefreshToken);
+                entity.Property(e => e.RefreshTokenExpireDate);
                 entity.Property(e => e.CreatedDate)
                      .IsRequired();
                 entity.Property(e => e.ModifiedDate)

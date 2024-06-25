@@ -1,6 +1,7 @@
 ﻿using BASE.Identity.API.DTO.Request;
 using BASE.Identity.Repository.Models;
 using BASE.Identity.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
 
@@ -8,6 +9,7 @@ namespace BASE.Identity.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class RoleController(IRoleService roleService) : Controller
     {
         private readonly IRoleService _roleService = roleService;

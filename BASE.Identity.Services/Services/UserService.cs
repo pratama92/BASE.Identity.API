@@ -66,6 +66,19 @@ namespace BASE.Identity.Services.Services
             }
         }
 
+        public async Task UpdateRefreshTokenAsync(string userName, string refreshToken, DateTime refreshTokenExpireDate)
+        {
+            var user = await GetUserByUserNameAsync(userName);
+
+            if (user != null)
+            {
+                user.RefreshToken = refreshToken;
+                user.RefreshTokenExpireDate = refreshTokenExpireDate;
+                user.ModifiedDate = DateTime.UtcNow;
+                await context.SaveChangesAsync();
+            }
+        }
+
         public async Task HardRemoveUserAsync(User request)
         {
             if (request != null)
