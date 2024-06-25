@@ -11,7 +11,7 @@ namespace BASE.Identity.Services.Services
         public static async Task<bool> IsUserExist(this User user)
         {
             
-            var username = await userService.GetUserByUserName(user.UserName);
+            var username = await userService.GetUserByUserNameAsync(user.UserName);
 
             if (username != null)
             {
@@ -24,7 +24,7 @@ namespace BASE.Identity.Services.Services
         public static async Task<bool> CheckCurrentPassword(this User user)
         {
             //UserService userService = new UserService();
-            var username = await userService.GetUserByUserName(user.UserName);
+            var username = await userService.GetUserByUserNameAsync(user.UserName);
 
             if (username != null)
             {

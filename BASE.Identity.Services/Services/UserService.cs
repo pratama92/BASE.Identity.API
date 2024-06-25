@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BASE.Identity.Services.Services
 {
-    public class UserService (DataBaseContext dataBaseContext) : IUserService
+    public class UserService(DataBaseContext dataBaseContext) : IUserService
     {
         private readonly DataBaseContext context = dataBaseContext;
-        private readonly RoleService roleService = new RoleService(dataBaseContext);       
+        private readonly RoleService roleService = new RoleService(dataBaseContext);
 
-        public async Task<User?> GetUserByUserName(string userName)
+        public async Task<User?> GetUserByUserNameAsync(string userName)
         {
             var user = await context.Users.FirstOrDefaultAsync(x => x.UserName == userName);
 
@@ -22,7 +22,7 @@ namespace BASE.Identity.Services.Services
             return null;
         }
 
-        public async Task<List<User>?> GetUsers()
+        public async Task<List<User>?> GetUsersAsync()
         {
             var users = await context.Users.ToListAsync();
 
@@ -34,14 +34,14 @@ namespace BASE.Identity.Services.Services
             return null;
         }
 
-        public async Task CreateUser(User request)
+        public async Task CreateUserAsync(User request)
         {
             var role = await roleService.GetRoleByRoleName("User");
 
             if (request != null)
             {
                 request.UserID = Guid.NewGuid();
-                request.RoleID = role != null ? role.RoleID: Guid.NewGuid();
+                request.RoleID = role != null ? role.RoleID : Guid.NewGuid();
                 request.Password = BCrypt.Net.BCrypt.HashPassword(request.Password);
                 request.CreatedDate = DateTime.UtcNow;
                 request.ModifiedDate = DateTime.UtcNow;
@@ -51,11 +51,11 @@ namespace BASE.Identity.Services.Services
             }
         }
 
-        public async Task UpdateUser(User request)
+        public async Task UpdateUserPasswordAsync(User request)
         {
             if (request != null)
             {
-                var user = await GetUserByUserName(request.UserName);
+                var user = await GetUserByUserNameAsync(request.UserName);
 
                 if (user != null)
                 {
@@ -63,15 +63,14 @@ namespace BASE.Identity.Services.Services
                     user.ModifiedDate = DateTime.UtcNow;
                     await context.SaveChangesAsync();
                 }
-
             }
         }
 
-        public async Task HardRemoveUser(User request)
+        public async Task HardRemoveUserAsync(User request)
         {
             if (request != null)
             {
-                var user = await GetUserByUserName(request.UserName);
+                var user = await GetUserByUserNameAsync(request.UserName);
 
                 if (user != null)
                 {

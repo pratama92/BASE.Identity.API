@@ -22,7 +22,7 @@ namespace BASE.Identity.API.Controllers
         {
             _logger.LogInformation(">> Get All User <<");
 
-            var users = await iuserService.GetUsers();
+            var users = await iuserService.GetUsersAsync();
 
             var result = new List<UserResponseDTO>();
             if (users != null)
@@ -44,7 +44,7 @@ namespace BASE.Identity.API.Controllers
         {
             _logger.LogInformation(">> Get User: <<" + userName);
 
-            var user = await iuserService.GetUserByUserName(userName);
+            var user = await iuserService.GetUserByUserNameAsync(userName);
 
             if (user != null)
             {
@@ -87,7 +87,7 @@ namespace BASE.Identity.API.Controllers
                 return BadRequest(message);
             }
 
-            await iuserService.CreateUser(user);
+            await iuserService.CreateUserAsync(user);
 
             return Ok();
         }
@@ -124,7 +124,7 @@ namespace BASE.Identity.API.Controllers
                 return BadRequest(message);
             }
            
-            await iuserService.UpdateUser(user);
+            await iuserService.UpdateUserPasswordAsync(user);
 
             return Ok();
         }
@@ -151,7 +151,7 @@ namespace BASE.Identity.API.Controllers
                 return BadRequest("The password is not correct");
             }
 
-            await iuserService.HardRemoveUser(user);
+            await iuserService.HardRemoveUserAsync(user);
 
             return Ok();
         }
